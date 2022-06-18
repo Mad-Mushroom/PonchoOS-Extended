@@ -20,8 +20,8 @@ extern "C" void KernelStart(BootInfo* BootInfo){
 
     Window window;
     window.makeWindow(600,400,200,200,0xffffffff,"Test Window 1");
-    GlobalRenderer->Print(ToString((uint64_t)info::Width));
-    //window.DrawLine(10,10,100,false,0xfffffff);
+    window.Fill(0x000000ff);
+    window.Println("Hallo ich bin Gustav!", 0xffffffff);
 
     
     //PIT::SetDivisor(2000);
@@ -33,6 +33,7 @@ extern "C" void KernelStart(BootInfo* BootInfo){
 
     while(true){
         asm ("hlt");
+        GlobalRenderer->DrawTextCursorPosition();
     }
 
 }

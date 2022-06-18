@@ -5,23 +5,40 @@
 #include "../Scheduling/PIT/PIT.h"
 
 uint8_t MousePointer[] = {
-    0b11111111, 0b11100000, 
-    0b11111111, 0b11000000, 
-    0b11111111, 0b10000000, 
-    0b11111111, 0b00000000, 
-    0b11111110, 0b00000000, 
-    0b11111100, 0b00000000, 
-    0b11111000, 0b00000000, 
-    0b11110000, 0b00000000, 
-    0b11100000, 0b00000000, 
-    0b11000000, 0b00000000, 
-    0b10000000, 0b00000000, 
-    0b00000000, 0b00000000, 
-    0b00000000, 0b00000000, 
-    0b00000000, 0b00000000, 
-    0b00000000, 0b00000000, 
-    0b00000000, 0b00000000, 
+    0b11111111, 0b11111110,
+    0b11111111, 0b11111100,
+    0b11111111, 0b11111000,
+    0b11111111, 0b11110000,
+    0b11111111, 0b11100000,
+    0b11111111, 0b11000000,
+    0b11111111, 0b11100000,
+    0b11111111, 0b11110000,
+    0b11111111, 0b11111000,
+    0b11111111, 0b11111100,
+    0b11111011, 0b11111110,
+    0b11110001, 0b11111111,
+    0b11100000, 0b11111110,
+    0b11000000, 0b01111100,
+    0b10000000, 0b00111000,
+    0b00000000, 0b00010000
 };
+
+    /*0b11111111, 0b11100000, 
+      0b11111111, 0b11000000, 
+      0b11111111, 0b10000000, 
+      0b11111111, 0b00000000, 
+      0b11111110, 0b00000000, 
+      0b11111100, 0b00000000, 
+      0b11111000, 0b00000000, 
+      0b11110000, 0b00000000, 
+      0b11100000, 0b00000000, 
+      0b11000000, 0b00000000, 
+      0b10000000, 0b00000000, 
+      0b00000000, 0b00000000, 
+      0b00000000, 0b00000000, 
+      0b00000000, 0b00000000, 
+      0b00000000, 0b00000000, 
+      0b00000000, 0b00000000,*/
 
 void MouseWait(){
     uint64_t Timeout = 100000;
@@ -86,16 +103,6 @@ void HandlePS2Mouse(uint8_t Data){
     }
 }
 
-/*void SendPress(const char* index){
-    Input input;
-    if(index == "LEFT"){
-        input.LeftMouseButtonPressed = true;
-        PIT::Sleepd(5);
-        input.LeftMouseButtonPressed = false;
-        return;
-    }
-}*/
-
 void ProcessMousePacket(){
     if (!MousePacketReady) return;
 
@@ -152,39 +159,14 @@ void ProcessMousePacket(){
         
         if (MousePosition.Y < 0) MousePosition.Y = 0;
         if (MousePosition.Y > GlobalRenderer->TargetFramebuffer->Height-1) MousePosition.Y = GlobalRenderer->TargetFramebuffer->Height-1;
-
-        //input.PositionMouse = MousePosition;
         
         GlobalRenderer->ClearMouseCursor(MousePointer, MousePositionOld);
         GlobalRenderer->DrawOverlayMouseCursor(MousePointer, MousePosition, 0xffffffff);
 
-        //input.GetMousePosition(MousePosition);
-
-        //Input input;
-
-        //input.PositionMouse = MousePosition;
-
-        /*for(int f=0; f < 100; f++){
-            input.PositionMouse = MousePosition;
-            PIT::Sleep(100);
-        }*/
-
-        /*input.MouseX = MousePosition.X;
-        input.MouseY = MousePosition.Y;*/
-
-        /*for(int i=0; i < 100; i++){
-            GlobalRenderer->Print(ToString((uint64_t)MousePosition.X));
-            GlobalRenderer->Print(",");
-            GlobalRenderer->Print(ToString((uint64_t)MousePosition.Y));
-            GlobalRenderer->Print(" ; ");
-            PIT::Sleepd(5);
-        }*/
-
-        //input.MouseX = MousePosition.X;
-        //input.MouseY = MousePosition.Y;
-
         if (MousePacket[0] & PS2Leftbutton){
-            GlobalRenderer->Print("LEFT");
+            //Window::LeftMouseButtonPressed = true;
+            //PIT::Sleep(100);
+            //Window::LeftMouseButtonPressed = false;
         }
         if (MousePacket[0] & PS2Middlebutton){
             

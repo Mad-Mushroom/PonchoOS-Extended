@@ -6,13 +6,15 @@
 #include "../Scheduling/PIT/PIT.h"
 #include "../UserInput/Mouse.h"
 
+Window window;
+
 void Window::makeWindow(unsigned int x, unsigned int y, unsigned int posX, unsigned int posY, unsigned int colour, const char* title){
     if(posX > (GlobalRenderer->TargetFramebuffer->Width)) return;
     if(posY > (GlobalRenderer->TargetFramebuffer->Height)) return;
     if (x > (GlobalRenderer->TargetFramebuffer->Width)) return;
     if(y > (GlobalRenderer->TargetFramebuffer->Height)) return;
     
-    Window window;
+
     Point oldCursorPosition;
     unsigned int oldTextColour;
     // Declare Variables
@@ -23,11 +25,10 @@ void Window::makeWindow(unsigned int x, unsigned int y, unsigned int posX, unsig
     window.windowColour = colour;
     window.windowTitle = title;
 
-    info::Width = x;
     // Render Window Form
     GlobalRenderer->DrawRectAngle(window.Width, window.Height, window.positionX, window.positionY, window.windowColour);
     GlobalRenderer->DrawLine(window.positionX, (window.positionX + 15), window.Width, false, window.windowColour);
-    // Render Text
+    // Render Title
     oldCursorPosition = GlobalRenderer->CursorPosition;
     oldTextColour = GlobalRenderer->Colour;
     GlobalRenderer->Colour = window.windowColour;
@@ -35,21 +36,22 @@ void Window::makeWindow(unsigned int x, unsigned int y, unsigned int posX, unsig
     GlobalRenderer->Print(window.windowTitle);
     GlobalRenderer->Colour = oldTextColour;
     GlobalRenderer->CursorPosition = oldCursorPosition;
+    // Render Buttons
+    GlobalRenderer->CursorPosition = {(window.positionX + window.Width - 8*7),window.positionY};
+    GlobalRenderer->Print("_ [] X ");
+    // Restore to factory Settings :)
+    GlobalRenderer->Colour = oldTextColour;
+    GlobalRenderer->CursorPosition = oldCursorPosition;
 
-    /*for(int i=0; i < 1000; i++){
-        if(MousePosition.X > window.positionX && MousePosition.X < (window.positionX + window.Width)){
-            if(MousePosition.Y > window.positionY && MousePosition.Y < (window.positionY + 15)){
-                GlobalRenderer->Print("Could Move!");
-            }
-        }
-
-        PIT::Sleep(1000);
-    }*/
+    if(window.LeftMouseButtonPressed == true){
+        window.Println("Haha du hast gedruckt...", 0xffffffff);
+    }
 }
 
 void Window::DrawPix(unsigned int posX, unsigned int posY, unsigned int colour){
-    Window window;
-    GlobalRenderer->PutPix((window.positionX + posX),(posY),colour);
+    //Window window;
+    GlobalRenderer->PutPix((window.positionX + posX),(window.positionY + 15 + posY),colour);
+    //GlobalRenderer->Print(ToString((uint64_t)posX));
 }
 
 void Window::DrawLine(int x, int y, int length, bool directionY, uint32_t colour){
@@ -69,8 +71,19 @@ void Window::DrawLine(int x, int y, int length, bool directionY, uint32_t colour
 }
 
 void Window::Fill(unsigned int colour){
-    Window window;
-    for(int i=0; i < window.Height; i++){
-        DrawLine(0,i,window.Width,false,colour);
+    for(int i=0; i < (window.Height - 2); i++){
+        DrawLine(1,i,(window.Width - 1),false,colour);
     }
+}
+
+void Window::Println(const char* text, unsigned int colour){
+    Point oldCursorPosition;
+    oldCursorPosition = GlobalRenderer->CursorPosition;
+    GlobalRenderer->CursorPosition = {(window.positionX + 2),(window.positionY + 2 + 15)};
+    unsigned int oldColour;
+    oldColour = GlobalRenderer->Colour;
+    GlobalRenderer->Colour = colour;
+    GlobalRenderer->Print(text);
+    GlobalRenderer->CursorPosition = oldCursorPosition;
+    GlobalRenderer->Colour = oldColour;
 }

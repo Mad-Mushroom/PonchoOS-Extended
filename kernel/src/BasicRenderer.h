@@ -27,6 +27,7 @@ class BasicRenderer{
     bool MouseDrawn;
     void DrawLine(int x, int y, int length, bool directionY, uint32_t colour);
     void DrawRectAngle(int x, int y, int posX, int posY, uint32_t colour);
+    void DrawTextCursorPosition();
 };
 
 extern BasicRenderer* GlobalRenderer;
