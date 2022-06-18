@@ -4,6 +4,8 @@
 #include "../CStr.h"
 #include "../Scheduling/PIT/PIT.h"
 
+bool LeftMouseButtonPressed;
+
 uint8_t MousePointer[] = {
     0b11111111, 0b11111110,
     0b11111111, 0b11111100,
@@ -164,9 +166,9 @@ void ProcessMousePacket(){
         GlobalRenderer->DrawOverlayMouseCursor(MousePointer, MousePosition, 0xffffffff);
 
         if (MousePacket[0] & PS2Leftbutton){
-            //Window::LeftMouseButtonPressed = true;
-            //PIT::Sleep(100);
-            //Window::LeftMouseButtonPressed = false;
+            LeftMouseButtonPressed = true;
+            //PIT::Sleep(1000);
+            //LeftMouseButtonPressed = false;
         }
         if (MousePacket[0] & PS2Middlebutton){
             

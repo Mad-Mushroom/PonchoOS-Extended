@@ -15,13 +15,14 @@ void startup(){
 
 extern "C" void KernelStart(BootInfo* BootInfo){
     KernelInfo KernelInfo = InitializeKernel(BootInfo);
+    Window window;
 
     startup();
 
-    Window window;
-    window.makeWindow(600,400,200,200,0xffffffff,"Test Window 1");
+    window.makeWindow(600,400,200,200,0xffffffff,"Georg");
     window.Fill(0x000000ff);
-    window.Println("Hallo ich bin Gustav!", 0xffffffff);
+    window.Println("Hello I'm Georg!", 0xffffffff);
+    window.HandleMouse();
 
     
     //PIT::SetDivisor(2000);
@@ -33,7 +34,6 @@ extern "C" void KernelStart(BootInfo* BootInfo){
 
     while(true){
         asm ("hlt");
-        //GlobalRenderer->DrawTextCursorPosition();
     }
 
 }
