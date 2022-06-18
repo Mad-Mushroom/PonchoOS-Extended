@@ -34,13 +34,16 @@ void BasicRenderer::DrawLine(int x, int y, int length, bool directionY, uint32_t
     }
 }
 
-void BasicRenderer::DrawTextCursorPosition(){
-    DrawLine(GlobalRenderer->CursorPosition.X, GlobalRenderer->CursorPosition.Y, 16, true, GlobalRenderer->Colour);
-    for(int yf = 0; yf < 16; yf++){
-        //GlobalRenderer->GetPix(CursorPosition.X, y);
-        GlobalRenderer->PutPix(CursorPosition.X, (GlobalRenderer->CursorPosition.Y + yf), GlobalRenderer->GetPix(CursorPosition.X, (GlobalRenderer->CursorPosition.Y + yf)));
-    }
-}
+//void BasicRenderer::DrawTextCursorPosition(){
+//    DrawLine(GlobalRenderer->CursorPosition.X, GlobalRenderer->CursorPosition.Y, 16, true, GlobalRenderer->Colour);
+//    for(int yf = 0; yf < 16; yf++){
+//        //GlobalRenderer->GetPix(CursorPosition.X, y);
+//        if(GlobalRenderer->CursorPosition.Y > 15){
+//            GlobalRenderer->PutPix((GlobalRenderer->CursorPosition.X - 16), (GlobalRenderer->CursorPosition.Y - yf),  GlobalRenderer->GetPix((GlobalRenderer->CursorPosition.X),(GlobalRenderer->CursorPosition.Y + 1)));
+//        }
+//        
+//    }
+//}
 
 void BasicRenderer::DrawRectAngle(int x, int y, int posX, int posY, uint32_t colour){
     DrawLine(posX, posY, x, false, colour); // Upper Line

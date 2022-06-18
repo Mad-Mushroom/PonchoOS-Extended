@@ -33,7 +33,7 @@ extern "C" void KernelStart(BootInfo* BootInfo){
 
     while(true){
         asm ("hlt");
-        GlobalRenderer->DrawTextCursorPosition();
+        //GlobalRenderer->DrawTextCursorPosition();
     }
 
 }
