@@ -163,7 +163,7 @@ void ProcessMousePacket(){
         if (MousePosition.Y > GlobalRenderer->TargetFramebuffer->Height-1) MousePosition.Y = GlobalRenderer->TargetFramebuffer->Height-1;
         
         GlobalRenderer->ClearMouseCursor(MousePointer, MousePositionOld);
-        GlobalRenderer->DrawOverlayMouseCursor(MousePointer, MousePosition, 0xffffffff);
+        GlobalRenderer->DrawOverlayMouseCursor(MousePointer, MousePosition, 0xfcfcfc);
 
         if (MousePacket[0] & PS2Leftbutton){
             LeftMouseButtonPressed = true;
