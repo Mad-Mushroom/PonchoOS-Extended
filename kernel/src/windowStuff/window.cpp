@@ -8,6 +8,9 @@
 
 //bool LeftMouseButtonPressed;
 Window window;
+TerminalWindow TermWindow;
+//uint8_t WinDat = window.Height = window.Width;
+//uint8_t Win[WinDat];
 
 void Window::makeWindow(unsigned int x, unsigned int y, unsigned int posX, unsigned int posY, unsigned int colour, const char* title){
     if(posX > (GlobalRenderer->TargetFramebuffer->Width)) return;
@@ -43,10 +46,24 @@ void Window::makeWindow(unsigned int x, unsigned int y, unsigned int posX, unsig
     // Restore to factory Settings :)
     GlobalRenderer->Colour = oldTextColour;
     GlobalRenderer->CursorPosition = oldCursorPosition;
+    window.windowCursorPosition = {(window.positionX + 2),(window.positionY + 2 + 15)};
+}
+
+void Window::deleteOldWindow(){
+    for(int i=0; i < window.Height + 1; i++){
+        int length;
+        if((window.oldPositionX + window.Width) > window.positionX){
+            length = window.positionX - window.oldPositionX;
+        }else{
+            length = window.Width;
+        }
+        GlobalRenderer->DrawLine(window.oldPositionX, (window.oldPositionY + i), length, false, 0x00b0b0);
+    }
 }
 
 void Window::RedrawWindow(){
-    makeWindow(window.Width,window.Height,window.positionX,window.positionY,window.windowColour,window.windowTitle);
+    deleteOldWindow();
+    //makeWindow(window.Width,window.Height,window.positionX,window.positionY,window.windowColour,window.windowTitle);
 }
 
 void Window::DrawPix(unsigned int posX, unsigned int posY, unsigned int colour){
@@ -72,21 +89,27 @@ void Window::DrawLine(int x, int y, int length, bool directionY, uint32_t colour
 }
 
 void Window::Fill(unsigned int colour){
-    for(int i=0; i < (window.Height - 4); i++){
+    for(int i=0; i < (window.Height - 16); i++){
         DrawLine(1,i,(window.Width - 1),false,colour);
     }
 }
 
 void Window::Println(const char* text, unsigned int colour){
+    unsigned int oldColour;
     Point oldCursorPosition;
     oldCursorPosition = GlobalRenderer->CursorPosition;
-    GlobalRenderer->CursorPosition = {(window.positionX + 2),(window.positionY + 2 + 15)};
-    unsigned int oldColour;
+    //window.windowCursorPosition = {(window.positionX + 2),(window.positionY + 2 + 15)};
+    GlobalRenderer->CursorPosition = window.windowCursorPosition;
     oldColour = GlobalRenderer->Colour;
     GlobalRenderer->Colour = colour;
     GlobalRenderer->Print(text);
     GlobalRenderer->CursorPosition = oldCursorPosition;
     GlobalRenderer->Colour = oldColour;
+}
+
+void Window::Nextln(){
+    window.windowCursorPosition.X = (window.positionX + 2);
+    window.windowCursorPosition.Y += 16;
 }
 
 void Window::HandleMouse(){
@@ -101,8 +124,21 @@ void Window::HandleMouse(){
         if(MousePosition.X > window.positionX && MousePosition.X < (window.positionX + window.Width - 8*8)){
             if(MousePosition.Y > window.positionY && MousePosition.Y < (window.positionY + 15)){
                 if(LeftMouseButtonPressed == true){
+                    window.oldPositionX = window.positionX;
+                    window.oldPositionY = window.positionY;
                     window.positionX = MousePosition.X;
                     window.positionY = MousePosition.Y;
+                    RedrawWindow();
+                    PIT::Sleep(100);
+                }
+            }
+        }
+
+        if(MousePosition.X > (window.positionX + (window.Width - 12)) && MousePosition.X < (window.positionX + window.Width)){
+            if(MousePosition.Y > window.positionY && MousePosition.Y < (window.positionY + 15)){
+                if(LeftMouseButtonPressed == true){
+                    window.oldPositionX = window.positionX;
+                    window.oldPositionY = window.positionY;
                     RedrawWindow();
                 }
             }

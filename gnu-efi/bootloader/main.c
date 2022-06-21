@@ -36,12 +36,12 @@ Framebuffer* InitializeGOP(){
 
 	status = uefi_call_wrapper(BS->LocateProtocol, 3, &gopGuid, NULL, (void**)&gop);
 	if(EFI_ERROR(status)){
-		Print(L"Unable to locate GOP\n\r");
+		Print(L"Unable to locate GOP\n");
 		return NULL;
 	}
 	else
 	{
-		Print(L"GOP located\n\r");
+		Print(L"GOP located\n");
 	}
 
 	framebuffer.BaseAddress = (void*)gop->Mode->FrameBufferBase;
@@ -136,11 +136,11 @@ UINTN strcmp(CHAR8* a, CHAR8* b, UINTN length){
 
 EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 	InitializeLib(ImageHandle, SystemTable);
-	Print(L"Starting PonchoOS Extended \n\r");
+	Print(L"Starting PonchoOS Extended... \n");
 
 	EFI_FILE* Kernel = LoadFile(NULL, L"kernel.elf", ImageHandle, SystemTable);
 	if (Kernel == NULL){
-		Print(L"Could not load Kernel! \n\r");
+		Print(L"Could not load Kernel! \n");
 	}
 	else{
 		//Print(L"Kernel Loaded Successfully \n\r");
@@ -167,7 +167,7 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 		header.e_version != EV_CURRENT
 	)
 	{
-		Print(L"Bad Kernel Format! \r\n");
+		Print(L"Bad Kernel Format! \n");
 	}
 	else
 	{
@@ -208,7 +208,7 @@ EFI_STATUS efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
 
 	PSF1_FONT* newFont = LoadPSF1Font(NULL, L"zap-light16.psf", ImageHandle, SystemTable);
 	if (newFont == NULL){
-		Print(L"Font is not valid or is not found! \n\r");
+		Print(L"Font is not valid or is not found! \n");
 	}
 	else
 	{

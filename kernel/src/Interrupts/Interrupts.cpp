@@ -3,6 +3,7 @@
 #include "../IO.h"
 #include "../UserInput/Keyboard.h"
 #include "../Scheduling/PIT/PIT.h"
+#include "../apps/Terminal/Terminal.h"
 
 __attribute__((interrupt)) void PageFault_Handler(InterruptFrame* Frame){
     Panic("Page Fault Detected");
@@ -25,6 +26,8 @@ __attribute__((interrupt)) void KeyboardInt_Handler(InterruptFrame* Frame){
     uint8_t Scancode = InByte(0x60);
 
     HandleKeyboard(Scancode);
+
+    //HandleTerminalInput(Scancode);
 
     PIC_EndMaster();
 }

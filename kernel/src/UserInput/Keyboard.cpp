@@ -1,12 +1,11 @@
 #include "Keyboard.h"
 #include "../windowStuff/window.h"
+#include "../apps/Terminal/Terminal.h"
 
-    bool IsLeftShiftPressed;
-    bool IsRightShiftPressed;
+bool IsLeftShiftPressed;
+bool IsRightShiftPressed;
 
 void HandleKeyboard(uint8_t Scancode){
-    Input input;
-
     switch (Scancode){
         case LeftShift:
             IsLeftShiftPressed = true;
@@ -34,7 +33,7 @@ void HandleKeyboard(uint8_t Scancode){
     char ASCII = QWERTYKeyboard::Translate(Scancode, IsLeftShiftPressed | IsRightShiftPressed);
 
     if (ASCII != 0){
-        GlobalRenderer->PutChar(ASCII);
+        //char input = ASCII;
     }
 
 }

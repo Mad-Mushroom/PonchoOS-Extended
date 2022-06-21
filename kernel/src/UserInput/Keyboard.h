@@ -4,3 +4,5 @@
 #include "../BasicRenderer.h"
 
 void HandleKeyboard(uint8_t Scancode);
+
+extern char input;
