@@ -18,3 +18,21 @@ ToDo:
 - [ ] FileSystem
 - [ ] Background Image
 - [ ] Shutdown / Reboot
+
+
+syntax on
+set number
+set mouse=a
+set path+=**
+set noshowmode
+set laststatus=2
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'itchyny/lightline'
+
+call plug#end()
+
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
